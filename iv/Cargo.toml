@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 jpeg-decoder = "0.3.2"
 minifb = "0.28.0"
+image = "0.25.9"
