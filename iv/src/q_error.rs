@@ -13,8 +13,7 @@ pub enum QError {
 
     ParseIntError,
 
-    JPEGError,
-    NoMetadata,
+    ImageError(String),
 }
 
 impl From<io::Error> for QError {
@@ -35,8 +34,3 @@ impl From<ParseIntError> for QError {
     }
 }
 
-impl From<jpeg_decoder::Error> for QError {
-    fn from(_: jpeg_decoder::Error) -> Self {
-        QError::JPEGError
-    }
-}

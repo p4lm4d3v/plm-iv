@@ -1,5 +1,6 @@
 use crate::process::{jpeg, png, ppm};
 use crate::q_error::QError;
+use image::RgbaImage;
 
 pub enum ImageType {
     PPM,
@@ -24,5 +25,18 @@ impl ImageType {
             ImageType::PNG => png::process(image_buffer),
         }
     }
-}
 
+    pub fn rgba_to_argb(img: RgbaImage) -> Result<Vec<u32>, QError> {
+        Ok(img
+            .pixels()
+            .map(|p| {
+                // p is &[u8; 4] with RGBA bytes
+                ((p[3] as u32) << 24) |  // Alpha
+                    ((p[0] as u32) << 16) |  // Red
+                    ((p[1] as u32) << 8) |   // Green
+                    (p[2] as u32) // Blue
+            })
+            .collect::<Vec<_>>()
+        )
+    }
+}
