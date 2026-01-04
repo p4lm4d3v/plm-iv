@@ -2,6 +2,7 @@
 
 pub mod types;
 pub mod q_error;
+mod util;
 
 use crate::types::image_type::ImageType;
 use crate::q_error::QError;
@@ -9,11 +10,6 @@ use minifb::{Key, ScaleMode, Window, WindowOptions};
 use std::env;
 use std::fs::File;
 use std::io::Read;
-
-fn from_u8_rgb(r: u8, g: u8, b: u8) -> u32 {
-    let (r, g, b) = (r as u32, g as u32, b as u32);
-    (r << 16) | (g << 8) | b
-}
 
 fn main() -> Result<(), QError> {
     let args: Vec<String> = env::args().collect();
