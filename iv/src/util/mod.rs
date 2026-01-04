@@ -1,1 +1,1 @@
-mod from_u8_to_rgb;
+pub mod u8_to_rgb;
