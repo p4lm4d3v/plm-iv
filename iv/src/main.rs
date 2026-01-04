@@ -7,7 +7,7 @@ mod process;
 
 use crate::types::image_type::ImageType;
 use crate::q_error::QError;
-use crate::process::ppm;
+use crate::process::{ppm,jpg,png};
 
 use minifb::{Key, ScaleMode, Window, WindowOptions};
 use std::env;
@@ -25,7 +25,7 @@ fn main() -> Result<(), QError> {
     }
 
     // Parsing the image type, and getting the image path
-    let image_path = &args[1]; 
+    let image_path = &args[1];
     let extension = image_path.split('.').last().unwrap();
     let img_type = ImageType::get(extension);
 
@@ -37,6 +37,8 @@ fn main() -> Result<(), QError> {
     // Running the appropriate process func for the image type
     let (width, height, window_buffer) = match img_type {
         Ok(ImageType::PPM) => ppm::process(&mut image_buffer),
+        Ok(ImageType::JPG) => jpg::process(&mut image_buffer),
+        Ok(ImageType::PNG) => png::process(&mut image_buffer),
         _ => Err(QError::WrongImageType),
     }?;
 
@@ -51,8 +53,8 @@ fn main() -> Result<(), QError> {
             ..WindowOptions::default()
         },
     )?;
-    
-    // Updating the window with the window buffer 
+
+    // Updating the window with the window buffer
     // until the escape key is not pressed
     while window.is_open() && !window.is_key_down(Key::Escape) {
         window.update_with_buffer(&window_buffer, width, height)?;
