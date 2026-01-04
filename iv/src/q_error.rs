@@ -13,7 +13,7 @@ pub enum QError {
 
     ParseIntError,
 
-    ImageError(String),
+    FailedToLoadImage,
 }
 
 impl From<io::Error> for QError {

@@ -1,4 +1,4 @@
-use crate::process::{jpeg, png, ppm};
+use crate::process::{png_jpeg_jpg, ppm};
 use crate::q_error::QError;
 use image::RgbaImage;
 
@@ -21,8 +21,8 @@ impl ImageType {
     pub fn process(self, image_buffer: &mut Vec<u8>) -> Result<(usize, usize, Vec<u32>), QError> {
         match self {
             ImageType::PPM => ppm::process(image_buffer),
-            ImageType::JPEG => jpeg::process(image_buffer),
-            ImageType::PNG => png::process(image_buffer),
+            ImageType::JPEG => png_jpeg_jpg::process(image_buffer),
+            ImageType::PNG => png_jpeg_jpg::process(image_buffer),
         }
     }
 
