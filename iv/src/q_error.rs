@@ -3,7 +3,7 @@ use std::num::ParseIntError;
 
 #[derive(Debug)]
 pub enum QError {
-    // Unimplemented,
+    PathError,
     NotEnoughArguments,
     InvalidImageType,
 

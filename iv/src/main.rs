@@ -1,17 +1,20 @@
 #![cfg_attr(windows, windows_subsystem = "windows")]
 
+mod models;
 mod process;
 mod q_error;
-mod models;
 mod util;
 
-use crate::q_error::QError;
 use crate::models::image_type::ImageType;
+use crate::q_error::QError;
 
+use crate::util::center_window::center_window;
 use minifb::{Key, ScaleMode, Window, WindowOptions};
 use std::env;
 use std::fs::File;
 use std::io::Read;
+use std::path::Path;
+use winapi::um::winuser::SM_CXSCREEN;
 
 fn main() -> Result<(), QError> {
     // Read the arguments
@@ -36,9 +39,16 @@ fn main() -> Result<(), QError> {
     // Running the appropriate process func for the image type
     let (width, height, window_buffer) = img_type.process(&mut image_buffer)?;
 
+    // Read the file name
+    let file_name = Path::new(image_path)
+        .file_name()
+        .ok_or(QError::PathError)?
+        .to_str()
+        .ok_or(QError::PathError)?;
+
     // Initializing the application window
     let mut window = Window::new(
-        image_path,
+        file_name,
         width,
         height,
         WindowOptions {
@@ -47,6 +57,13 @@ fn main() -> Result<(), QError> {
             ..WindowOptions::default()
         },
     )?;
+
+    use winapi::um::winuser::GetSystemMetrics;
+
+    let sc_w = unsafe { GetSystemMetrics(0) } as usize;
+    let sc_h = unsafe { GetSystemMetrics(1) } as usize;
+
+    center_window(&mut window, sc_w, sc_h)?;
 
     // Updating the window with the window buffer
     // until the escape key is not pressed
