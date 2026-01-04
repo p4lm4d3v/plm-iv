@@ -14,7 +14,6 @@ use std::env;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
-use winapi::um::winuser::SM_CXSCREEN;
 
 fn main() -> Result<(), QError> {
     // Read the arguments
