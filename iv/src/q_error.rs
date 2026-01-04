@@ -3,28 +3,40 @@ use std::num::ParseIntError;
 
 #[derive(Debug)]
 pub enum QError {
-    Unimplemented,
-    IncorrectUsageOfProgram,
-    WrongImageType,
-    IO(io::Error),
-    Minifb(minifb::Error),
-    ParseIntError(ParseIntError),
+    // Unimplemented,
+    NotEnoughArguments,
+    InvalidImageType,
+
+    IOError,
+
+    MinifbError,
+
+    ParseIntError,
+
+    JPEGError,
+    NoMetadata,
 }
 
 impl From<io::Error> for QError {
-    fn from(e: io::Error) -> Self {
-        QError::IO(e)
+    fn from(_: io::Error) -> Self {
+        QError::IOError
     }
 }
 
 impl From<minifb::Error> for QError {
-    fn from(e: minifb::Error) -> Self {
-        QError::Minifb(e)
+    fn from(_: minifb::Error) -> Self {
+        QError::MinifbError
     }
 }
 
 impl From<ParseIntError> for QError {
-    fn from(e: ParseIntError) -> Self {
-        QError::ParseIntError(e)
+    fn from(_: ParseIntError) -> Self {
+        QError::ParseIntError
+    }
+}
+
+impl From<jpeg_decoder::Error> for QError {
+    fn from(_: jpeg_decoder::Error) -> Self {
+        QError::JPEGError
     }
 }

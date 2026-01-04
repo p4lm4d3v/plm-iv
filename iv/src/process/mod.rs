@@ -1,5 +1,5 @@
 pub mod ppm;
-pub mod jpg;
+pub mod jpeg;
 pub mod png;
 
 
